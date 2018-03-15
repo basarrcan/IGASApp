@@ -1,0 +1,16 @@
+<h2 class="page-header" >Login</h2>
+<form class="form-signin" (submit)="onTransaction()">
+        <div class="form-group">
+          <label for="Username">Address</label>
+          <input type="text" class="form-control" placeholder="Enter Username" [(ngModel)]="username" name="username">
+        </div>
+        <div class="form-group">
+          <label for="Username">Amount</label>
+          <input type="text" class="form-control" placeholder="Enter Amount" [(ngModel)]="amount" name="amount">
+        </div>
+        <div class="form-group">
+        <label for="Password">Private Key</label>
+        <input type="password" class="form-control" placeholder=" Enter Key" [(ngModel)]="privatekey" name="privatekey">
+        </div>
+        <input class="btn btn-lg btn-primary" type="submit" value="Transaction">
+</form>
