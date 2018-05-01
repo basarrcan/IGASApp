@@ -1,10 +1,11 @@
-<div *ngIf="user">
+<div *ngIf="user" >
   <h2 class="page-header">Profile</h2>
   <ul class="list-group">
     <li class="list-group-item">Username : {{user.username}}</li>
     <li class="list-group-item">Email : {{user.email}}</li>
     <li class="list-group-item">Address : {{user.address}}</li>
     <li class="list-group-item">Balance : {{user.balance}}</li>
-    <li class="list-group-item">EOS : {{user.eosBalance}}</li>
+    <li class="list-group-item" *ngIf="user.eosBalance">EOS : {{user.eosBalance}} </li>
+    <li class="list-group-item" *ngIf="!user.eosBalance">EOS : 0 </li>
   </ul>
 </div>

@@ -18,14 +18,14 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://165.227.158.23/user/register', user, {headers: headers})
+    return this.http.post('http://localhost:3000/user/register', user, {headers: headers})
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://165.227.158.23/user/login', user, {headers: headers})
+    return this.http.post('http://localhost:3000/user/login', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
     this.loadUsername();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://165.227.158.23/user/profile/' +this.username, {headers: headers})
+    return this.http.get('http://localhost:3000/user/profile/' +this.username, {headers: headers})
       .map(res => res.json());
   }
 
@@ -44,14 +44,14 @@ export class AuthService {
     this.loadKey();
     this.loadUsername();
     const tsx = {
-      username: this.username,
+      sender: this.username,
       privateKey: this.privateKey,
       receiver: transaction.receiver,
-      amount: transaction.amount
+      amount: transaction.amount + ' IGT'
     }
     console.log(tsx);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://165.227.158.23/transaction/send', tsx, {headers: headers})
+    return this.http.post('http://localhost:3000/transaction/send', tsx, {headers: headers})
       .map(res => res.json());
   }
 
