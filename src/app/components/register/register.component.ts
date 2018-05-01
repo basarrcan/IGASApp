@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   username: String;
   email: String;
+  privkey: String;
 
   constructor(
     private validateService: ValidateService,
@@ -42,8 +43,8 @@ export class RegisterComponent implements OnInit {
     // Register user
     this.authService.registerUser(user).subscribe(data => {
     if(data.success) {
-      this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 3000});
-      this.router.navigate(['/login']);
+      this.flashMessage.show(data.message, {cssClass: 'alert-success', timeout: 3000});
+      this.privkey = data.privateKey;
     } else {
       this.flashMessage.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});
       this.router.navigate(['/']);

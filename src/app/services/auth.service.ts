@@ -8,6 +8,8 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthService {
   authToken: any;
   user: any;
+  privateKey: any;
+  username: any;
 
   constructor(private http: Http) {
 
@@ -16,7 +18,7 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('165.227.158.23:3000/user/register', user, {headers: headers})
+    return this.http.post('http://165.227.158.23/user/register', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -30,22 +32,50 @@ export class AuthService {
   getProfile() {
     let headers = new Headers();
     this.loadToken();
+    this.loadUsername();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('165.227.158.23:3000/user/profile', {headers: headers})
+    return this.http.get('http://165.227.158.23/user/profile/' +this.username, {headers: headers})
       .map(res => res.json());
   }
 
-  storeUserData(token, user) {
+  sendToken(transaction) {
+    let headers = new Headers();
+    this.loadKey();
+    this.loadUsername();
+    const tsx = {
+      username: this.username,
+      privateKey: this.privateKey,
+      receiver: transaction.receiver,
+      amount: transaction.amount
+    }
+    console.log(tsx);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://165.227.158.23/transaction/send', tsx, {headers: headers})
+      .map(res => res.json());
+  }
+
+  storeUserData(token, user, username, privateKey) {
     localStorage.setItem('id_token', token);
+    localStorage.setItem('username', username);
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('privateKey', privateKey);
     this.authToken = token;
     this.user = user;
+    this.privateKey = privateKey;
   }
 
   loadToken() {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
+  }
+  loadKey() {
+    const privatekey = localStorage.getItem('privateKey');
+    this.privateKey = privatekey;
+  }
+  loadUsername(){
+    const username = localStorage.getItem('username');
+    this.username = username;
   }
 
   loggedIn() {
